@@ -6,6 +6,9 @@ import (
 	"crypto/cipher"
 )
 
+// ========== 对称加密/解密运算 ============== //
+
+
 const AES_KEY_ENCRYPT  = "1234567890123456" //16byte [128bit]
 
 //AES对称加密，需要首先对明文补码
@@ -16,7 +19,7 @@ const AES_KEY_ENCRYPT  = "1234567890123456" //16byte [128bit]
 //补码
 //PKCS5的分组是以8为单位
 //PKCS7的分组长度为1-255
-func PKCS7Padding(org []byte, blockSize int) []byte {
+func pKCS7Padding(org []byte, blockSize int) []byte {
 	pad:=blockSize-len(org)%blockSize
 	padArr:=bytes.Repeat([]byte{byte(pad)},pad)
 	return append(org,padArr...)
@@ -31,7 +34,7 @@ func AESEncrypt(org []byte , key [] byte) []byte{
 	//检验秘钥
 	block,_:=aes.NewCipher(key)
 	//对明文进行补码
-	org = PKCS7Padding(org,block.BlockSize())
+	org = pKCS7Padding(org,block.BlockSize())
 	//设置加密模式
 	blockMode:=cipher.NewCBCEncrypter(block,key)
 
