@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"math"
 	"blockchainGo/oop"
-	baseBc "blockchainGo/base"
+	baseBc "blockchainGo/utils"
 
 	"blockchainGo/concurrency"
 	"blockchainGo/crypt"
