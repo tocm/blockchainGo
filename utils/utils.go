@@ -1,5 +1,11 @@
 package base
 
+import (
+	"fmt"
+	"bytes"
+	"encoding/binary"
+)
+
 //注意公用方法要前面大写
 func CalMax(num1 int, num2 int) int{
 	if num1 > num2 {
@@ -25,9 +31,19 @@ func IntToBytesBigendian(numb int32) []byte {
 
 }
 
-func BytesToInt32Bigendian(numbBytes[]byte) int {
+func BytesToInt32Bigendian(numbBytes[]byte) int32 {
 	//byte 转成 int 型
-	numbInt := int( numbBytes[3] & 0xff | (numbBytes[2] & 0xff) << 8 | (numbBytes[1] & 0xff) << 16 | (numbBytes[0] & 0xff) << 24)
+	numbInt := ((int32)(numbBytes[3] & 0xff)) | ((int32)(numbBytes[2] & 0xff) << 8) | ((int32)(numbBytes[1] & 0xff) << 16) | ((int32)(numbBytes[0] & 0xff) << 24)
 	return numbInt
 
+}
+
+
+//字节转换成整形
+func BytesToInt(b []byte) int {
+	var tmp int32
+	fmt.Println("----BytesToInt ---",b)
+	bytesBuffer := bytes.NewBuffer(b)
+	binary.Read(bytesBuffer, binary.BigEndian, &tmp)
+	return int(tmp)
 }
